@@ -12,8 +12,7 @@ using namespace std;
 
 class Animation
 {
-	int numFrame;
-	string animationName;
+	char* animationName;
 	Frame* frames;
 public:
 	Animation();

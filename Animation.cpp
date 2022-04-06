@@ -1,7 +1,6 @@
 #include "Animation.h"
 
 Animation::Animation() {
-    numFrame = 0;
     animationName = "Test Animation";
     frames = NULL;
 }
@@ -9,7 +8,7 @@ Animation::Animation() {
 Animation::~Animation() {
     Frame *lastPtr, *currentPtr;
 
-    if(numFrame == 0)
+    if(!frames)
         cout << "Blank animation! No cleanup needed." << endl;
     else {
         lastPtr = frames;
@@ -50,19 +49,22 @@ void Animation::InsertFrame() {
     tmp->GetpNext() = currentPtr;
     
     frames = tmp;
-    numFrame++;
     
     cout << endl;
 }
 
 void Animation::EditFrame() {
     char *name;
-    int index, i;
+    int index, i, numFrame = 0;
     Frame *currentPtr, *tmp;
-
-    if(numFrame == 0)
+    if(!frames)
         cout << "There's no frame! Cannot edit." << endl;
     else {
+        currentPtr = frames;
+        while (currentPtr) {
+            currentPtr = currentPtr->GetpNext();
+            numFrame++;
+        }
         cout << "There are " << numFrame << " frames in this animation." << endl;
 
         while(1) {
@@ -108,7 +110,7 @@ void Animation::EditFrame() {
 void Animation::DeleteFrame() {
     Frame *lastPtr, *currentPtr;
 
-    if(numFrame == 0)
+    if(!frames)
         printf("There's no frame! Cannot delete.");
     else {
         lastPtr = NULL;
@@ -120,7 +122,6 @@ void Animation::DeleteFrame() {
         }
 
         delete currentPtr;
-        numFrame--;
 
         if(lastPtr)
             lastPtr->GetpNext() = NULL;
@@ -131,15 +132,19 @@ void Animation::DeleteFrame() {
 }
 
 void Animation::ReportAnimation() {
-    int id = 1;
+    int id = 1, numFrame = 0;
     struct Frame *currentPtr;
 
-    cout << "Animation name: " << animationName << endl;
-    cout << "Total frame: " << numFrame << "\n" << endl;
-
-    if(numFrame == 0)
+    if(!frames)
         cout << "Blank animation ..." << endl;
     else {
+        currentPtr = frames;
+        while (currentPtr) {
+            currentPtr = currentPtr->GetpNext();
+            numFrame++;
+        }
+        cout << "Animation name: " << animationName << endl;
+        cout << "Total frame: " << numFrame << "\n" << endl;
         cout << "Start this animation ..." << endl;
 
         currentPtr = frames;

@@ -11,8 +11,6 @@ class Frame {
 public:
 	Frame();
 	~Frame();
-	bool setName(char *name);
-	bool setNext(Frame *next);
 	char*& GetFrameName() { return frameName; }
 	Frame*& GetpNext() { return pNext; }
 };
