@@ -75,7 +75,7 @@ int main(void)
             while(getchar() != '\n');
         }
     }
-    
+
     return 0;
 }
 
@@ -90,7 +90,15 @@ void InsertFrame(Animation* ptrAnimation) {
     struct Frame *tmp, *currentPtr;
 
     tmp = (struct Frame*)malloc(sizeof(struct Frame));
+    if (NULL == tmp) {
+        fprintf(stderr, "Error - could not allocate memory");
+        return;
+    }
     name = (char*)malloc((MAX_NAME_SIZE + 1) * sizeof(char));
+    if (NULL == name) {
+        fprintf(stderr, "Error - could not allocate memory");
+        return;
+    }
 
     while(1) {
         printf("Enter frame name: ");
@@ -107,12 +115,11 @@ void InsertFrame(Animation* ptrAnimation) {
     tmp->frameName = name;
 
     currentPtr = ptrAnimation->frames;
-    if(currentPtr)
-        tmp->pNext = currentPtr;
-    
+    tmp->pNext = currentPtr;
+
     ptrAnimation->frames = tmp;
     ptrAnimation->numFrame++;
-    
+
     printf("\n");
 }
 
@@ -155,7 +162,7 @@ void EditFrame(Animation* ptrAnimation) {
 
         while(1) {
             printf("Please enter index of a frame to edit: ");
-            
+
             if(scanf("%d%c", &index, &junk) == 2 && junk == '\n') {
                 if(index <= currentCount && index > 0)
                     break;
@@ -174,7 +181,7 @@ void EditFrame(Animation* ptrAnimation) {
             i++;
             currentPtr = currentPtr->pNext;
         }
-        
+
         name = currentPtr->frameName;
 
         while(1) {
