@@ -1,0 +1,3 @@
+C:/Users/Goliasis/source/repos/cst8219-assign/out/build/x64-Debug/CMakeFiles/part2.dir
+C:/Users/Goliasis/source/repos/cst8219-assign/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/Goliasis/source/repos/cst8219-assign/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
