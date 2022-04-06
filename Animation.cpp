@@ -47,8 +47,7 @@ void Animation::InsertFrame() {
     }
 
     currentPtr = frames;
-    if(currentPtr)
-        tmp->GetpNext() = currentPtr;
+    tmp->GetpNext() = currentPtr;
     
     frames = tmp;
     numFrame++;
