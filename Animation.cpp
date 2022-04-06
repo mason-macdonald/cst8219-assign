@@ -1,7 +1,8 @@
 #include "Animation.h"
 
 Animation::Animation() {
-    animationName = "Test Animation";
+    animationName = new char[15];
+    strcpy(animationName, "Test Animation");
     frames = NULL;
 }
 
@@ -27,15 +28,15 @@ Animation::~Animation() {
 }
 
 void Animation::InsertFrame() {
-    char *name;
+    string name;
     Frame *tmp, *currentPtr;
+    int length;
 
     tmp = new Frame();
-    name = tmp->GetFrameName();
     
     while(1) {
         printf("Enter frame name: ");
-
+        //cant use cin.getline() because of the while (cin.get() != '\n'); in part2.cpp
         if(cin >> name)
             break;
 		else {
@@ -44,18 +45,20 @@ void Animation::InsertFrame() {
 			cin.ignore(256, '\n');
 		}
     }
-
     currentPtr = frames;
     tmp->GetpNext() = currentPtr;
-    
+
+    length = MAX_NAME_SIZE <= name.length() ? MAX_NAME_SIZE : name.length();
+    name.copy(tmp->GetFrameName(), length);
+    tmp->GetFrameName()[length] = '\0';
+
     frames = tmp;
-    
     cout << endl;
 }
 
 void Animation::EditFrame() {
-    char *name;
-    int index, i, numFrame = 0;
+    string name;
+    int index, i, numFrame = 0, length;
     Frame *currentPtr, *tmp;
     if(!frames)
         cout << "There's no frame! Cannot edit." << endl;
@@ -90,8 +93,6 @@ void Animation::EditFrame() {
             currentPtr = currentPtr->GetpNext();
         }
 
-        name = currentPtr->GetFrameName();
-
         while(1) {
             printf("New frame name: ");
 
@@ -104,6 +105,9 @@ void Animation::EditFrame() {
             }
         }
     }
+    length = MAX_NAME_SIZE <= name.length() ? MAX_NAME_SIZE : name.length();
+    name.copy(currentPtr->GetFrameName(), length);
+    currentPtr->GetFrameName()[length] = '\0';
     cout << endl;
 }
 
