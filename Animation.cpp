@@ -43,8 +43,21 @@ void Animation::DeleteFrame() {
     if(frames.empty())
         std::cout << "Blank animation. CANNOT DELETE." << std::endl;
     else {
-        // DELETE LAST FRAME OPERATION
-        
+        size = 0;
+        for(auto it = frames.begin(); it != frames.end(); it++) {
+            size++;
+        }
+
+        if(size == 1)
+            frames.pop_front();
+        else {
+            auto it = frames.begin();
+            for(int i = 1; i < size - 1; i++) {
+                it++;
+            }
+            frames.erase_after(it);
+        }
+
         std::cout << "Last frame deleted." << std::endl;
     }
 }
