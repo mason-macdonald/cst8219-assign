@@ -1,24 +1,28 @@
-//Animation.h
+// Animation.h
 //@author: Surbhi Bahri
-
 #pragma once
+
+#include <iostream>
+#include <cstring>
+#include <forward_list>
+
+#include "Frame.h"
 
 #define MAX_NAME_SIZE 20
 
-#include <iostream>
-#include "Frame.h"
-
-using namespace std;
-
 class Animation
 {
-	char* animationName;
-	Frame* frames;
+	std::string AnimationName;
+	std::forward_list<Frame> frames;
 public:
-	Animation();
+	Animation(std::string name):AnimationName(name) {  }
 	~Animation();
-	void InsertFrame();
 	void EditFrame();
 	void DeleteFrame();
-	void ReportAnimation();
+	// Add a frame as in cin>>A;
+	friend std::istream& operator>>(std::istream&, Animation&);
+	// Output the frames as in cout<<A;
+	friend std::ostream& operator<<(std::ostream&, Animation&);
 };
+	
+

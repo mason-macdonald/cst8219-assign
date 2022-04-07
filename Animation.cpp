@@ -1,163 +1,109 @@
 #include "Animation.h"
 
-Animation::Animation() {
-    animationName = new char[15];
-    strcpy(animationName, "Test Animation");
-    frames = NULL;
-}
-
 Animation::~Animation() {
-    Frame *lastPtr, *currentPtr;
-
-    if(!frames)
-        cout << "Blank animation! No cleanup needed." << endl;
-    else {
-        lastPtr = frames;
-        currentPtr = lastPtr->GetpNext();
-
-        delete lastPtr;
-
-        while(currentPtr) {
-            lastPtr = currentPtr;
-            currentPtr = currentPtr->GetpNext();
-
-            delete lastPtr;
-        }
-        cout << "Cleanup completed." << endl;
-    }
-}
-
-void Animation::InsertFrame() {
-    string name;
-    Frame *tmp, *currentPtr;
-    int length;
-
-    tmp = new Frame();
-    
-    while(1) {
-        printf("Enter frame name: ");
-        //cant use cin.getline() because of the while (cin.get() != '\n'); in part2.cpp
-        if(cin >> name)
-            break;
-		else {
-			cout << "Invalid input!" << endl;
-			cin.clear();
-			cin.ignore(256, '\n');
-		}
-    }
-    currentPtr = frames;
-    tmp->GetpNext() = currentPtr;
-
-    length = MAX_NAME_SIZE <= name.length() ? MAX_NAME_SIZE : name.length();
-    name.copy(tmp->GetFrameName(), length);
-    tmp->GetFrameName()[length] = '\0';
-
-    frames = tmp;
-    cout << endl;
+    frames.clear();
 }
 
 void Animation::EditFrame() {
-    string name;
-    int index, i, numFrame = 0, length;
-    Frame *currentPtr, *tmp;
-    if(!frames)
-        cout << "There's no frame! Cannot edit." << endl;
-    else {
-        currentPtr = frames;
-        while (currentPtr) {
-            currentPtr = currentPtr->GetpNext();
-            numFrame++;
-        }
-        cout << "There are " << numFrame << " frames in this animation." << endl;
+    int size, index, i;
+    std::cout << "Edit frame in " << AnimationName << std::endl;
 
-        while(1) {
-            printf("Please enter index of a frame to edit: ");
-            
-            if(cin >> index) {
-                if(index <= numFrame && index > 0)
-                    break;
-                else
-                    printf("Frame does not exist!\n");
-            }
-            else {
-                printf("Invalid input!\n");
-                cin.clear();
-			    cin.ignore(256, '\n');
-            }
-        }
+    if(frames.empty()) {
+        std::cout << "Blank animation. Cannot EDIT." << std::endl;
+        return;
+    }
 
-        i = 1;
-        currentPtr = frames;
-        while(i != index) {
-            i++;
-            currentPtr = currentPtr->GetpNext();
-        }
+    size = 0;
+    for(auto it = frames.begin(); it != frames.end(); it++) {
+        size++;
+    }
+    std::cout << "Number of frame in this animation: " << size << std::endl;
 
-        while(1) {
-            printf("New frame name: ");
+    while(1) {
+        std::cout << "Enter index of the frame you want to edit[0-" << size-1 << "]: ";
 
-            if(cin >> name)
+        if(std::cin >> index) {
+            if(index >= 0 && index < size)
                 break;
-            else {
-                cout << "Invalid input!" << endl;
-                cin.clear();
-                cin.ignore(256, '\n');
-            }
+            else
+                std::cout << "Frame does not exist." << std::endl;
+        }
+        else {
+            std::cout << "Invalid input!" << std::endl;
+            std::cin.clear();
+            std::cin.ignore(256, '\n');
         }
     }
-    length = MAX_NAME_SIZE <= name.length() ? MAX_NAME_SIZE : name.length();
-    name.copy(currentPtr->GetFrameName(), length);
-    currentPtr->GetFrameName()[length] = '\0';
-    cout << endl;
+
+    // EDIT FRAME OPERATION
 }
 
 void Animation::DeleteFrame() {
-    Frame *lastPtr, *currentPtr;
-
-    if(!frames)
-        printf("There's no frame! Cannot delete.");
+    int size;
+    if(frames.empty())
+        std::cout << "Blank animation. CANNOT DELETE." << std::endl;
     else {
-        lastPtr = NULL;
-        currentPtr = frames;
-
-        while(currentPtr->GetpNext()) {
-            lastPtr = currentPtr;
-            currentPtr = currentPtr->GetpNext();
-        }
-
-        delete currentPtr;
-
-        if(lastPtr)
-            lastPtr->GetpNext() = NULL;
-        else
-            frames = NULL;
+        // DELETE LAST FRAME OPERATION
+        
+        std::cout << "Last frame deleted." << std::endl;
     }
-    cout << endl;
 }
 
-void Animation::ReportAnimation() {
-    int id = 1, numFrame = 0;
-    struct Frame *currentPtr;
+std::istream& operator>>(std::istream& in, Animation& anima) {
+    int duration;
+    std::string name;
+    char *copy = new char[MAX_NAME_SIZE+1];
 
-    if(!frames)
-        cout << "Blank animation ..." << endl;
-    else {
-        currentPtr = frames;
-        while (currentPtr) {
-            currentPtr = currentPtr->GetpNext();
-            numFrame++;
+    std::cout << "Insert a new frame" << std::endl;
+
+    while(1) {
+        std::cout << "Enter frame name: ";
+
+        if(in >> name) {
+            if(name.length() <= MAX_NAME_SIZE)
+                break;
+            else
+                std::cout << "Name must be less than " << MAX_NAME_SIZE << " characters." << std::endl;
         }
-        cout << "Animation name: " << animationName << endl;
-        cout << "Total frame: " << numFrame << "\n" << endl;
-        cout << "Start this animation ..." << endl;
-
-        currentPtr = frames;
-
-        while(currentPtr) {
-            cout << "Image " << id << ", file name: " << currentPtr->GetFrameName() << endl;
-            id++;
-            currentPtr = currentPtr->GetpNext();
+        else {
+            std::cout << "Invalid input!" << std::endl;
+            in.clear();
+			in.ignore(256, '\n');
         }
     }
-    cout << endl;
+
+    while(1) {
+        std::cout << "Enter frame duration: ";
+
+        if(in >> duration)
+            break;
+        else {
+            std::cout << "Invalid input!" << std::endl;
+            in.clear();
+            in.ignore(256, '\n');
+        }
+    }
+
+    copy = strcpy(copy, name.c_str());
+    Frame *newFr = new Frame(copy, duration);
+    anima.frames.push_front(*newFr);
+
+    return in;
+}
+
+std::ostream& operator<<(std::ostream& out, Animation& anima) {
+    int i = 0;
+    out << "Animation name: " << anima.AnimationName << std::endl;
+
+    if(anima.frames.empty())
+        out << "Blank animation\n" << std::endl;
+    else {
+        out << "Start animation" << std::endl;
+        for(auto it = anima.frames.begin(); it != anima.frames.end(); it++) {
+            out << "Frame " << i << ": " << *it << std::endl;
+            i++;
+        }
+        out << std::endl;
+    }
+    return out;
 }

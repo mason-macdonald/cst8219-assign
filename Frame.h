@@ -1,16 +1,22 @@
-//Frame.h
+//Frame.h (Part 3)
+
 //@author: Surbhi Bahri
 
 #pragma once
 
-#define MAX_NAME_SIZE 20
+#include <iostream>
 
-class Frame {
-	char* frameName;
-	Frame* pNext;
-public:
-	Frame();
-	~Frame();
-	char*& GetFrameName() { return frameName; }
-	Frame*& GetpNext() { return pNext; }
+class Frame
+{
+    char* frameName;
+    double duration;
+
+    public:
+    Frame(char*, double);
+    Frame(const Frame&);
+    ~Frame();
+
+    Frame& operator=(const Frame&);
+    friend std::ostream& operator << (std::ostream&, Frame&);
 };
+
