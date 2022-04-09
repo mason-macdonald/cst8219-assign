@@ -102,15 +102,15 @@ void InsertFrame(Animation* ptrAnimation) {
 
     while(1) {
         printf("Enter frame name: ");
-
-        scanf("%[^\n]s", name);
+        name[0] = '\0';
+        scanf("%20[^\n]s", name);
+        while (getchar() != '\n');
 
         if(name[0] == '\0' || strlen(name) > MAX_NAME_SIZE)
             printf("Invalid Input!\n");
         else
             break;
     }
-    while(getchar() != '\n');
 
     tmp->frameName = name;
 
@@ -187,7 +187,9 @@ void EditFrame(Animation* ptrAnimation) {
         while(1) {
             printf("New frame name: ");
 
-            scanf("%[^\n]s", name);
+            name[0] = '\0';
+            scanf("%20[^\n]s", name);
+            while (getchar() != '\n');
 
             if(name[0] == '\0' || strlen(name) > MAX_NAME_SIZE)
                 printf("Invalid Input!\n");
@@ -195,7 +197,6 @@ void EditFrame(Animation* ptrAnimation) {
                 break;
         }
 
-        while(getchar() != '\n');
     }
     printf("\n");
 }
