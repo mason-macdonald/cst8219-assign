@@ -8,15 +8,18 @@ Animation::Animation() {
 
 Animation::~Animation() {
     Frame *lastPtr, *currentPtr;
+    delete animationName;
 
-    if(!frames)
+    if (!frames) {
         cout << "Blank animation! No cleanup needed." << endl;
+        return;
+    }
     else {
         lastPtr = frames;
         currentPtr = lastPtr->GetpNext();
 
         delete lastPtr;
-
+        //Loops through all the LL deleting the last node.
         while(currentPtr) {
             lastPtr = currentPtr;
             currentPtr = currentPtr->GetpNext();
@@ -48,6 +51,7 @@ void Animation::InsertFrame() {
     currentPtr = frames;
     tmp->GetpNext() = currentPtr;
 
+    //Tags a null terminator to the the end of the string after copying it into the char*
     length = MAX_NAME_SIZE <= name.length() ? MAX_NAME_SIZE : name.length();
     name.copy(tmp->GetFrameName(), length);
     tmp->GetFrameName()[length] = '\0';
@@ -60,10 +64,13 @@ void Animation::EditFrame() {
     string name;
     int index, i, numFrame = 0, length;
     Frame *currentPtr, *tmp;
-    if(!frames)
+    if (!frames) {
         cout << "There's no frame! Cannot edit." << endl;
+        return;
+    }
     else {
         currentPtr = frames;
+        //Counts the total num of Frames in LL
         while (currentPtr) {
             currentPtr = currentPtr->GetpNext();
             numFrame++;
@@ -104,18 +111,20 @@ void Animation::EditFrame() {
                 cin.ignore(256, '\n');
             }
         }
+        length = MAX_NAME_SIZE <= name.length() ? MAX_NAME_SIZE : name.length();
+        name.copy(currentPtr->GetFrameName(), length);
+        currentPtr->GetFrameName()[length] = '\0';
     }
-    length = MAX_NAME_SIZE <= name.length() ? MAX_NAME_SIZE : name.length();
-    name.copy(currentPtr->GetFrameName(), length);
-    currentPtr->GetFrameName()[length] = '\0';
     cout << endl;
 }
 
 void Animation::DeleteFrame() {
     Frame *lastPtr, *currentPtr;
 
-    if(!frames)
+    if (!frames) {
         printf("There's no frame! Cannot delete.");
+        return;
+    }
     else {
         lastPtr = NULL;
         currentPtr = frames;
@@ -139,8 +148,10 @@ void Animation::ReportAnimation() {
     int id = 1, numFrame = 0;
     struct Frame *currentPtr;
 
-    if(!frames)
+    if (!frames) {
         cout << "Blank animation ..." << endl;
+        return;
+    }
     else {
         currentPtr = frames;
         while (currentPtr) {
