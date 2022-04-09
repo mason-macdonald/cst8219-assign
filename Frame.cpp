@@ -18,7 +18,7 @@ Frame& Frame::operator=(const Frame &src) {
 }
 
 std::ostream& operator << (std::ostream& out, Frame& fr) {
-    out << "name=" << fr.frameName << ", duration=" << fr.duration;
+    out << "Frame Name=" << fr.frameName << "; duration=" << fr.duration;
 
     return out;
 }

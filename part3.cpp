@@ -31,7 +31,7 @@ int main(void) {
     //_CRTDBG_LEAK_CHECK_DF);
 
     while (RUNNING) {
-        cout<<"MENU\n1. Add an Animation\n2. Delete an Animation\n3. Edit an Animation\n4. list the Animations\n5. Quit\n> ";
+        cout<<"MENU\n1. Add an Animation\n2. Delete an Animation\n3. Edit an Animation\n4. List the Animations\n5. Quit\n\nSelected Option: ";
 
         if(cin>>response) {
             switch (response) {
