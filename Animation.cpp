@@ -5,13 +5,14 @@ Animation::~Animation() {
 }
 
 void Animation::EditFrame() {
-    int size, index, i, duration;
     std::string name;
-    char* copy = new char[MAX_NAME_SIZE + 1];
-    std::cout << "Edit a frame in the animation" << std::endl;
+    int size, index, i, duration;
+    char *copy = new char[MAX_NAME_SIZE+1];
+    
+    std::cout << "Edit frame in " << AnimationName << std::endl;
 
     if(frames.empty()) {
-        std::cout << "There are no frames in the animation" << std::endl;
+        std::cout << "Blank animation. Cannot EDIT.\n" << std::endl;
         return;
     }
 
@@ -19,65 +20,14 @@ void Animation::EditFrame() {
     for(auto it = frames.begin(); it != frames.end(); it++) {
         size++;
     }
+    std::cout << "Number of frame in this animation: " << size << std::endl;
 
-    i = 0;
     while(1) {
-        std::cout << "There are " << size << " frame(s) in the list. Please specify the index (<=" << size - 1 << ") to edit at:" << std::endl;
-
-        auto eraseIt = frames.before_begin();       //Used to track the element that will be removed from the forward_list
+        std::cout << "Enter index of the frame you want to edit[0-" << size-1 << "]: ";
 
         if(std::cin >> index) {
-            std::cin.clear();
-            if (index >= 0 && index <= size) {            
-                for (auto it = frames.begin(); it != frames.end(); it++) {                 
-                    i++;
-                    if (i == index+1) {
-                        auto tempIt = it;
-                        std::cout << "The name and duration of this frame is " << *it << std::endl;
-                        std::cout << "What do you wish to replace them with?" << std::endl;
-                        
-                        //Data validation for replacement frame name
-                        while (1) {
-                            std::cout << "Please enter the frame name: ";
-
-                            if (std::cin >> name) {
-                                if (name.length() <= MAX_NAME_SIZE)
-                                    break;
-                                else
-                                    std::cout << "Name must be less than " << MAX_NAME_SIZE << " characters." << std::endl;
-                            }
-                            else {
-                                std::cout << "Invalid input!" << std::endl;
-                                std::cin.clear();
-                                std::cin.ignore(256, '\n');
-                            }
-                        }
-
-                        //Data validation for replacement frame duration
-                        while (1) {
-                            std::cout << "Please enter the frame duration: ";
-
-                            if (std::cin >> duration)
-                                break;
-                            else {
-                                std::cout << "Invalid input!" << std::endl;
-                                std::cin.clear();
-                                std::cin.ignore(256, '\n');
-                            }
-                        }
-
-                        copy = strcpy(copy, name.c_str());
-                        Frame* newFr = new Frame(copy, duration);
-                        frames.insert_after(it, *newFr);
-                        frames.erase_after(eraseIt);
-
-                        std::cout << "Frame #" << i-1 << " edit completed" << std::endl;
-                        break;
-                    }
-                    eraseIt = it;
-                } 
+            if(index >= 0 && index < size)
                 break;
-            }
             else
                 std::cout << "Frame does not exist." << std::endl;
         }
@@ -87,6 +37,43 @@ void Animation::EditFrame() {
             std::cin.ignore(256, '\n');
         }
     }
+
+    auto it = frames.begin();
+    for(int i = 0; i < index; i++) {
+        it++;
+    }
+
+    while(1) {
+        std::cout << "Enter frame name: ";
+
+        if(std::cin >> name) {
+            if(name.length() <= MAX_NAME_SIZE)
+                break;
+            else
+                std::cout << "Name must be less than " << MAX_NAME_SIZE << " characters." << std::endl;
+        }
+        else {
+            std::cout << "Invalid input!" << std::endl;
+            std::cin.clear();
+			std::cin.ignore(256, '\n');
+        }
+    }
+
+    while(1) {
+        std::cout << "Enter frame duration: ";
+
+        if(std::cin >> duration)
+            break;
+        else {
+            std::cout << "Invalid input!" << std::endl;
+            std::cin.clear();
+            std::cin.ignore(256, '\n');
+        }
+    }
+
+    copy = strcpy(copy, name.c_str());
+    Frame tmp(copy, duration);
+    *it = tmp;
 }
 
 void Animation::DeleteFrame() {

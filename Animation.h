@@ -24,5 +24,3 @@ public:
 	// Output the frames as in cout<<A;
 	friend std::ostream& operator<<(std::ostream&, Animation&);
 };
-	
-

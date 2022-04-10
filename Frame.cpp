@@ -11,7 +11,7 @@ Frame::~Frame() {
 }
 
 Frame& Frame::operator=(const Frame &src) {
-    frameName = src.frameName;
+    strcpy(frameName, src.frameName);
     duration = src.duration;
 
     return *this;
