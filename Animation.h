@@ -3,9 +3,8 @@
 
 #pragma once
 
-#define MAX_NAME_SIZE 20
-
 #include <iostream>
+#include <cstring>
 #include "Frame.h"
 
 using namespace std;

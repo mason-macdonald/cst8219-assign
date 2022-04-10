@@ -1,7 +1,7 @@
 #include "Animation.h"
 
 Animation::Animation() {
-    animationName = new char[15];
+    animationName = new char[MAX_NAME_SIZE];
     strcpy(animationName, "Test Animation");
     frames = NULL;
 }
@@ -10,11 +10,7 @@ Animation::~Animation() {
     Frame *lastPtr, *currentPtr;
     delete animationName;
 
-    if (!frames) {
-        cout << "Blank animation! No cleanup needed." << endl;
-        return;
-    }
-    else {
+    if (frames) {
         lastPtr = frames;
         currentPtr = lastPtr->GetpNext();
 
@@ -28,6 +24,8 @@ Animation::~Animation() {
         }
         cout << "Cleanup completed." << endl;
     }
+    else
+        cout << "Blank animation! No cleanup needed." << endl;
 }
 
 void Animation::InsertFrame() {
@@ -38,7 +36,7 @@ void Animation::InsertFrame() {
     tmp = new Frame();
     
     while(1) {
-        printf("Enter frame name: ");
+        cout << "Enter frame name: ";
         //cant use cin.getline() because of the while (cin.get() != '\n'); in part2.cpp
         if(cin >> name)
             break;
@@ -64,11 +62,8 @@ void Animation::EditFrame() {
     string name;
     int index, i, numFrame = 0, length;
     Frame *currentPtr, *tmp;
-    if (!frames) {
-        cout << "There's no frame! Cannot edit." << endl;
-        return;
-    }
-    else {
+
+    if (frames) {
         currentPtr = frames;
         //Counts the total num of Frames in LL
         while (currentPtr) {
@@ -78,22 +73,22 @@ void Animation::EditFrame() {
         cout << "There are " << numFrame << " frames in this animation." << endl;
 
         while(1) {
-            printf("Please enter index of a frame to edit: ");
+            cout << "Please enter index of a frame to edit [0-" << numFrame - 1 << "]: ";
             
             if(cin >> index) {
-                if(index <= numFrame && index > 0)
+                if(index < numFrame && index >= 0)
                     break;
                 else
-                    printf("Frame does not exist!\n");
+                    cout << "Frame does not exist!" << endl;
             }
             else {
-                printf("Invalid input!\n");
+                cout << "Invalid input!" << endl;
                 cin.clear();
 			    cin.ignore(256, '\n');
             }
         }
 
-        i = 1;
+        i = 0;
         currentPtr = frames;
         while(i != index) {
             i++;
@@ -101,7 +96,7 @@ void Animation::EditFrame() {
         }
 
         while(1) {
-            printf("New frame name: ");
+            cout << "New frame name: ";
 
             if(cin >> name)
                 break;
@@ -115,17 +110,16 @@ void Animation::EditFrame() {
         name.copy(currentPtr->GetFrameName(), length);
         currentPtr->GetFrameName()[length] = '\0';
     }
+    else
+        cout << "There's no frame! Cannot EDIT." << endl;
+    
     cout << endl;
 }
 
 void Animation::DeleteFrame() {
     Frame *lastPtr, *currentPtr;
 
-    if (!frames) {
-        printf("There's no frame! Cannot delete.");
-        return;
-    }
-    else {
+    if (frames) {
         lastPtr = NULL;
         currentPtr = frames;
 
@@ -140,7 +134,12 @@ void Animation::DeleteFrame() {
             lastPtr->GetpNext() = NULL;
         else
             frames = NULL;
+
+        cout << "Last frame deleted" << endl;
     }
+    else
+        cout << "There's no frame! Cannot DELETE." << endl;
+    
     cout << endl;
 }
 
@@ -148,11 +147,7 @@ void Animation::ReportAnimation() {
     int id = 1, numFrame = 0;
     struct Frame *currentPtr;
 
-    if (!frames) {
-        cout << "Blank animation ..." << endl;
-        return;
-    }
-    else {
+    if (frames) {
         currentPtr = frames;
         while (currentPtr) {
             currentPtr = currentPtr->GetpNext();
@@ -170,5 +165,8 @@ void Animation::ReportAnimation() {
             currentPtr = currentPtr->GetpNext();
         }
     }
+    else
+        cout << "Blank animation ..." << endl;
+    
     cout << endl;
 }
