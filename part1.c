@@ -6,7 +6,7 @@
 //_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF|_CRTDBG_LEAK_CHECK_DF); // in main, after local declarations
 //NB must be in debug build
 
-#define MAX_NAME_SIZE 20
+#define MAX_NAME_SIZE 30
 
 //#include <crtdbg.h>
 #include <stdio.h>
@@ -21,7 +21,6 @@ struct Frame{
 };
 
 typedef struct{
-    int numFrame;
     char *animationName;
     struct Frame *frames;
 }Animation;
@@ -80,7 +79,6 @@ int main(void)
 }
 
 void InitAnimation(Animation* ptrAnimation) {
-    ptrAnimation->numFrame = 0;
     ptrAnimation->frames = NULL;
     ptrAnimation->animationName = "Test Animation";
 }
@@ -118,7 +116,6 @@ void InsertFrame(Animation* ptrAnimation) {
     tmp->pNext = currentPtr;
 
     ptrAnimation->frames = tmp;
-    ptrAnimation->numFrame++;
 
     printf("\n");
 }
@@ -126,9 +123,7 @@ void InsertFrame(Animation* ptrAnimation) {
 void DeleteFrame(Animation* ptrAnimation) {
     struct Frame *lastPtr, *currentPtr;
 
-    if(ptrAnimation->numFrame == 0)
-        printf("There's no frame! Cannot delete.");
-    else {
+    if(ptrAnimation->frames) {
         lastPtr = NULL;
         currentPtr = ptrAnimation->frames;
 
@@ -139,13 +134,14 @@ void DeleteFrame(Animation* ptrAnimation) {
 
         free(currentPtr->frameName);
         free(currentPtr);
-        ptrAnimation->numFrame--;
 
         if(lastPtr)
             lastPtr->pNext = NULL;
         else
             ptrAnimation->frames = NULL;
     }
+    else
+        printf("There's no frame! Cannot delete.\n");
     printf("\n");
 }
 
@@ -154,17 +150,21 @@ void EditFrame(Animation* ptrAnimation) {
     int index, i, currentCount;
     struct Frame *currentPtr;
 
-    currentCount = ptrAnimation->numFrame;
-    if(currentCount == 0)
-        printf("There's no frame! Cannot edit.\n");
-    else {
+    currentPtr = ptrAnimation->frames;
+
+    if(currentPtr) {
+        currentCount = 0;
+        while(currentPtr) {
+            currentCount++;
+            currentPtr = currentPtr->pNext;
+        }
         printf("There are %d frames in this animation\n", currentCount);
 
         while(1) {
-            printf("Please enter index of a frame to edit: ");
+            printf("Please enter index of a frame to edit [0-%d]: ", currentCount - 1);
 
             if(scanf("%d%c", &index, &junk) == 2 && junk == '\n') {
-                if(index <= currentCount && index > 0)
+                if(index < currentCount && index >= 0)
                     break;
                 else
                     printf("Frame does not exist!\n");
@@ -175,7 +175,7 @@ void EditFrame(Animation* ptrAnimation) {
             }
         }
 
-        i = 1;
+        i = 0;
         currentPtr = ptrAnimation->frames;
         while(i != index) {
             i++;
@@ -196,21 +196,27 @@ void EditFrame(Animation* ptrAnimation) {
             else
                 break;
         }
-
     }
+    else
+        printf("There's no frame! Cannot edit.\n");
+    
     printf("\n");
 }
 
 void ReportAnimation(Animation* ptrAnimation) {
-    int id = 1;
+    int id = 1, numFrame = 0;
     struct Frame *currentPtr;
 
     printf("Animation name: %s\n", ptrAnimation->animationName);
-    printf("Total frame: %d\n\n", ptrAnimation->numFrame);
 
-    if(ptrAnimation->numFrame == 0)
-        printf("Blank animation ...\n");
-    else {
+    currentPtr = ptrAnimation->frames;
+    while(currentPtr) {
+        numFrame++;
+        currentPtr = currentPtr->pNext;
+    }
+    printf("Total frame: %d\n\n", numFrame);
+
+    if(ptrAnimation->frames) {
         printf("Start this animation ...\n");
 
         currentPtr = ptrAnimation->frames;
@@ -221,6 +227,8 @@ void ReportAnimation(Animation* ptrAnimation) {
             currentPtr = currentPtr->pNext;
         }
     }
+    else
+        printf("Blank animation ...\n");
 
     printf("\n");
 }
@@ -228,9 +236,7 @@ void ReportAnimation(Animation* ptrAnimation) {
 void CleanUp(Animation* ptrAnimation) {
     struct Frame *lastPtr, *currentPtr;
 
-    if(ptrAnimation->numFrame == 0)
-        printf("Blank animation! No cleanup needed.\n");
-    else {
+    if(ptrAnimation->frames) {
         lastPtr = ptrAnimation->frames;
         currentPtr = lastPtr->pNext;
 
@@ -247,4 +253,6 @@ void CleanUp(Animation* ptrAnimation) {
 
         printf("Cleanup completed.\n");
     }
+    else
+        printf("Blank animation! No cleanup needed.\n");
 }
