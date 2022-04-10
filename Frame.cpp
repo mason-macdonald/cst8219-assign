@@ -1,3 +1,9 @@
+/*
+ * Title: TeamAssignment
+ * Course: CST8219 C++
+ * Term: Winter 2022
+ * Authors/Student Names: Mason Macdonald, Maxwell Neil, Thomas Nguyen
+ */
 #include "Frame.h"
 
 Frame::Frame(char* name, double time) {
