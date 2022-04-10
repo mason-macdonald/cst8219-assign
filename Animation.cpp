@@ -12,7 +12,7 @@ void Animation::EditFrame() {
     std::cout << "Edit frame in " << AnimationName << std::endl;
 
     if(frames.empty()) {
-        std::cout << "Blank animation. Cannot EDIT.\n" << std::endl;
+        std::cout << "There are no frames in the animation" << std::endl;
         return;
     }
 
@@ -20,10 +20,9 @@ void Animation::EditFrame() {
     for(auto it = frames.begin(); it != frames.end(); it++) {
         size++;
     }
-    std::cout << "Number of frame in this animation: " << size << std::endl;
-
+    
     while(1) {
-        std::cout << "Enter index of the frame you want to edit[0-" << size-1 << "]: ";
+        std::cout << "There are " << size << " frame(s) in the list . Please specify the index (<=" << size - 1 << ") to edit at: ";
 
         if(std::cin >> index) {
             if(index >= 0 && index < size)
@@ -38,10 +37,14 @@ void Animation::EditFrame() {
         }
     }
 
+
     auto it = frames.begin();
     for(int i = 0; i < index; i++) {
         it++;
     }
+
+    std::cout << "The name and duration of this frame is " << *it << std::endl;
+    std::cout << "What do you wish to replace them with?" << std::endl;
 
     while(1) {
         std::cout << "Enter frame name: ";
@@ -74,6 +77,7 @@ void Animation::EditFrame() {
     copy = strcpy(copy, name.c_str());
     Frame tmp(copy, duration);
     *it = tmp;
+    std::cout << "Frame #" << index << " edit completed" << std::endl;
 }
 
 void Animation::DeleteFrame() {

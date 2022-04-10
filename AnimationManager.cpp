@@ -10,7 +10,7 @@ void AnimationManager::EditAnimation() {
     bool running;
 
     if(animations.empty()) {
-        std::cout << "Blank animation manager. Cannot EDIT.\n" << std::endl;
+        std::cout << "There are no animations in the animation manager\n" << std::endl;
         return;
     }
 
@@ -49,7 +49,7 @@ void AnimationManager::EditAnimation() {
                 animations[index].EditFrame(); break;
             case '4':
                 running = false;
-                std::cout << "Animation #" << index << " edit is complete\n" << std::endl; break;
+                std::cout << "Animation #" << index << " edit completed\n" << std::endl; break;
             default:
                 std::cout<<"Please enter a valid option"<<std::endl;
             }
@@ -62,11 +62,13 @@ void AnimationManager::DeleteAnimation() {
     int size, index;
 
     if(animations.empty())
-        std::cout << "Blank animation manager. Cannot DELETE." << std::endl;
+        std::cout << "There are no animations in the animation manager" << std::endl;
     else {
+
         while(1) {
             size = animations.size();
 
+            std::cout << "Delete an animation from the animation manager" << std::endl;
             std::cout << "Which animation do you wish to delete? Please give the index in the range 0 to " << size-1 << ": ";
 
             if(std::cin >> index) {
