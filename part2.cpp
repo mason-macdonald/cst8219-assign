@@ -1,5 +1,12 @@
-// part2.cpp
-//@author: Surbhi Bahri
+/*
+ * Title: part2.cpp
+ * Course: CST8219 C++ Programming
+ * Term: Winter 2022
+ * Authors/Student Names: Mason Macdonald, Maxwell Neil, Thomas Nguyen
+ * Professors: Surbhi Bahri, Kacey Taouch
+ * Assessment: Final project part 2
+ * Purpose: Test all functions of an Animation object
+ */
 
 //#define _CRT_SECURE_NO_WARNINGS
 //#define _CRTDBG_MAP_ALLOC	// need this to get the line identification

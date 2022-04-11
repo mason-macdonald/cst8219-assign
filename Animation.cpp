@@ -61,7 +61,7 @@ void Animation::InsertFrame() {
 void Animation::EditFrame() {
     string name;
     int index, i, numFrame = 0, length;
-    Frame *currentPtr, *tmp;
+    Frame *currentPtr;
 
     if (frames) {
         currentPtr = frames;
@@ -145,7 +145,7 @@ void Animation::DeleteFrame() {
 
 void Animation::ReportAnimation() {
     int id = 1, numFrame = 0;
-    struct Frame *currentPtr;
+    Frame *currentPtr;
 
     if (frames) {
         currentPtr = frames;
