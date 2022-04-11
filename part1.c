@@ -1,5 +1,12 @@
-// part1.c
-//@author: Surbhi Bahri
+/*
+ * Title: part1.cpp
+ * Course: CST8219 C++ Programming
+ * Term: Winter 2022
+ * Authors/Student Names: Mason Macdonald, Maxwell Neil, Thomas Nguyen, Surbhi Bahri
+ * Professors: Surbhi Bahri, Kacey Taouch
+ * Assessment: Final project part 1
+ * Purpose: To build a frame linked list for an animation.
+ */
 
 //#define _CRT_SECURE_NO_WARNINGS
 //#define _CRTDBG_MAP_ALLOC // need this to get the line identification
