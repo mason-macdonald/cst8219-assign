@@ -1,8 +1,11 @@
 /*
- * Title: TeamAssignment
- * Course: CST8219 C++
+ * Title: AnimationManager.h
+ * Course: CST8219 C++ Programming
  * Term: Winter 2022
  * Authors/Student Names: Mason Macdonald, Maxwell Neil, Thomas Nguyen
+ * Professors: Surbhi Bahri, Kacey Taouch
+ * Assessment: Final project part 3
+ * Purpose: Define functions for AnimationManager class
  */
 #include "AnimationManager.h"
 
