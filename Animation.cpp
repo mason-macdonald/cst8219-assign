@@ -1,3 +1,12 @@
+/*
+ * Title: Animation.cpp
+ * Course: CST8219 C++ Programming
+ * Term: Winter 2022
+ * Authors/Student Names: Mason Macdonald, Maxwell Neil, Thomas Nguyen
+ * Professors: Surbhi Bahri, Kacey Taouch
+ * Assessment: Final project part 2
+ * Purpose: Contains the functionalitly for an animation
+ */
 #include "Animation.h"
 
 Animation::Animation() {
