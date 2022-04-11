@@ -149,7 +149,7 @@ std::istream& operator>>(std::istream& in, Animation& anima) {
     copy = strcpy(copy, name.c_str());
     Frame newFr(copy, duration);
     anima.frames.push_front(newFr);
-    delete copy;
+    delete[] copy;
 
     std::cout << "Frame " << name << " added to the front of the frames" << std::endl;
 
