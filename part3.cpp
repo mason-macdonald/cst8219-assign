@@ -46,9 +46,9 @@ int main(void) {
             case '3':M.EditAnimation(); break;
             case '4':cout << M; break;
             case '5':RUNNING = false; break;
-            default:cout<<"Please enter a valid option"<<endl;
-            }
+            default:cout<<"Please enter a valid option\n"<<endl;
             while(cin.get() != '\n');
+            }
         }
         else {
             cout << "Invalid input" << endl;

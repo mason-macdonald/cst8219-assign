@@ -48,7 +48,7 @@ void AnimationManager::EditAnimation() {
     while (running) {
         std::cout<<"\nANIMATION MENU\n1. Insert a Frame at the front\n2. Delete last Frame\n3. Edit a Frame\n4. Quit\n\nSelected option: ";
         if(std::cin>>response) {
-            std::cin.clear();
+            //std::cin.clear();
             switch (response) {
             case '1':
                 std::cin >> animations[index]; break;
@@ -61,8 +61,14 @@ void AnimationManager::EditAnimation() {
                 std::cout << "Animation #" << index << " edit completed\n" << std::endl; break;
             default:
                 std::cout<<"Please enter a valid option"<<std::endl;
+                while(std::cin.get() != '\n');
             }
+            //std::cin.clear();
+        }
+        else {
+            std::cout << "Invalid input" << std::endl;
             std::cin.clear();
+            std::cin.ignore(256, '\n');
         }
     }
 }
